@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 app = Flask(__name__)
-
+@app.route('/')
 @app.route('/index.html')
 def index():
     return render_template("index.jinja2")
@@ -22,7 +22,7 @@ def custom():
     fname = request.form['fname']
     lname = request.form['lname']
     thing = request.form['favorite_thing']
-    name = fname + " " +lname
+    name = fname + " " + lname
     if thing == "BMC":
         image_paths = 'static/BMC.jpg'
     elif thing == "Cervelo":
