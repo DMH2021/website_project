@@ -17,12 +17,13 @@ def about_me():
 def locations():
     return render_template("locations.jinja2")
 
-@app.route('/custom.html', method = ['POST'])
+@app.route('/custom.html', methods = ['POST'])
 def custom():
     fname = request.form['fname']
     lname = request.form['lname']
-    thing = request.form['favorite_thing']
     name = fname + " " + lname
+
+    thing = request.form['favorite_thing']
     if thing == "BMC":
         image_paths = 'static/BMC.jpg'
     elif thing == "Cervelo":
