@@ -1,9 +1,17 @@
+import sqlite3
 from flask import Flask, render_template, request
 app = Flask(__name__)
 @app.route('/')
 @app.route('/index.jinja2')
 def index():
-    return render_template("index.jinja2")
+    # connect to the database
+    conn = sqlite3.connect("site_data.db")
+    # Querying the database with SELECT statement
+    cursor = conn.execute("SELECT User, Content from messages")
+    records = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("index.jinja2", messages=records)
 
 @app.route('/bike.jinja2')
 def bike():
@@ -17,21 +25,17 @@ def about_me():
 def locations():
     return render_template("locations.jinja2")
 
-@app.route('/custom.jinja2', methods = ['POST'])
+@app.route('/new_messages.jinja2', methods = ['POST'])
 def custom():
-    fname = request.form['fname']
-    lname = request.form['lname']
-    name = fname + " " + lname
+    author = request.form['author']
+    message = request.form['messages']
+    # Connect to the database
+    conn = sqlite3.connect("site_data.db")
+    # Adding new data with the insert statement
+    cursor = conn.execute("INSERT INTO messages VALUES ('%s', '%s', 0)" % (author, message))
+    cursor.close()
+    conn.commit()
+    conn.close()
+    print("[%s] posted '%s' " % (author, message))
 
-    thing = request.form['favorite_thing']
-    if thing == "BMC":
-        image_paths = 'static/BMC.jpg'
-    elif thing == "Cervelo":
-        image_paths = 'static/Cervelo.jpg'
-    elif thing == "Trek":
-        image_paths = 'static/Trek.jpg'
-    elif thing == "Canyon":
-        image_paths = 'static/Canyon.jpg'
-    elif thing == "Pinarello":
-        image_paths = 'static/Pinarello.jpg'
-    return render_template("custom.jinja2", full_name = name, image_paths = image_paths)
+    return render_template("new_messages.jinja2")
