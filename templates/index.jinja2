@@ -1,16 +1,24 @@
 {% extends "layout.jinja2" %}
 {% block body %}
 <div class = "container">
-    <div>
+    <div class="jumbotron">
         <!-- Page Content -->
         <h1>Message Board</h1>
         <p> Here are some messages</p>
         <hr/>
-        <ul>
-            {%  for message in messages %}
-                <li> [{{ message[0] }}] says {{ message[1] }} </li>
-            {%  endfor %}
-        </ul>
+        {%  for message in messages %}
+        <blockquote class="blockquote">
+             <p class="mb-0">
+                 {{ message[1] }} <a href = "like.jinja2?rowid={{ message[3] }}" class ="btn btn-outline-primary">
+                 <i class="far fa-thumbs-up"> + {{ message[2] }}</i></a>
+             </p>
+             <footer class="blockquote-footer">
+                 {{ message[0] }}
+             </footer>
+        </blockquote>
+        {% endfor %}
+    </div>
+    </hr>
         <form action = "new_messages.jinja2" method = "POST">
             <div class="form-group">
                 <label>Message:</label><br>
