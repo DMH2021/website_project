@@ -32,7 +32,7 @@ def custom():
     # Connect to the database
     conn = sqlite3.connect("site_data.db")
     # Adding new data with the insert statement
-    cursor = conn.execute("INSERT INTO messages VALUES (?, ?, 0)" % (author, message))
+    cursor = conn.execute("INSERT INTO messages VALUES (?, ?, 0)" , (author, message))
     cursor.close()
     conn.commit()
     conn.close()
