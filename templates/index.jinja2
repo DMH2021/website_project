@@ -3,8 +3,15 @@
 <div class = "container">
     <div class="jumbotron">
         <!-- Page Content -->
+        <h1>Local Weather Report</h1>
+        <p class="lead"> It looks like {{ weather_description }} outside</p>
+        <h3><i class="fas fa-temperature-high {{ temperature_style }}"></i> {{ temperature }}</h3>
         <h1>Message Board</h1>
-        <p> Here are some messages</p>
+        <p class="lead"> Here are some messages</p>
+    <link rel="stylesheet" href="static/custom.css">
+    {%  for location in msg_locations %}
+        <img class="state-flag" src="http://flags.ox3.in/svg/{{ location[0] }}.svg">
+    {% endfor %}
         <hr/>
         {%  for message in messages %}
         <blockquote class="blockquote">
